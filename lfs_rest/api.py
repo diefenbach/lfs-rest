@@ -11,14 +11,24 @@ from lfs.catalog.models import Product
 
 
 class ProductResource(ModelResource):
+    categories = fields.ToManyField("lfs_rest.api.CategoryResource", "categories", null=True)
+
     class Meta:
         queryset = Product.objects.all()
         resource_name = 'product'
         authorization = Authorization()
+        authentication = BasicAuthentication()
+        excludes = ["effective_price"]
+        filtering = {
+            "sku": ALL,
+            "categories": ALL,
+    }
 
 
 class CategoryResource(ModelResource):
-    parent = fields.ForeignKey("self", "parent", null=True)
+    parent = fields.ForeignKey("lfs_rest.api.CategoryResource", "parent", null=True)
+    products = fields.ToManyField("lfs_rest.api.ProductResource", "products", null=True)
+
     class Meta:
         queryset = Category.objects.all()
         resource_name = 'category'
@@ -26,5 +36,5 @@ class CategoryResource(ModelResource):
         authentication = BasicAuthentication()
         excludes = ["level", "uid"]
         filtering = {
-            "name" : ALL,
+            "name": ALL,
         }
