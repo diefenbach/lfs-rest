@@ -10,9 +10,9 @@ from tastypie.resources import ALL
 from tastypie.serializers import Serializer
 
 # lfs imports
+from lfs.addresses.models import Address
 from lfs.catalog.models import Category
 from lfs.catalog.models import Product
-from lfs.customer.models import Address
 from lfs.customer.models import Customer
 from lfs.order.models import Order
 from lfs.order.models import OrderItem
